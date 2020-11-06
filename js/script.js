@@ -92,7 +92,7 @@ function getColorConfirmedGrowth(d) {
 
 function style(feature) {
     return {
-        fillColor: getColorConfirmedGrowth(feature.growthrate),
+        fillColor: getColorConfirmedGrowth(feature.popInsecure),
         weight: 1,
         opacity: 1,
         color: '#777',
@@ -179,14 +179,14 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-    this._div.innerHTML = '<h3>US COVID-19 Cases by County</h3>' +
+    this._div.innerHTML = '<h3>US Food Insecurity Cases by County</h3>' +
         (props ? '<b>' + props.properties.NAME + (props.properties.STATENAME ? ', ' + props.properties.STATENAME : '') +
-            '</b><br />Confirmed: ' + (props.Confirmed ? numberWithCommas(props.Confirmed) : '0') +
-            '<br />Deaths: ' + (props.Deaths ? numberWithCommas(props.Deaths) : '0') +
-            '<br />Population: ' + (props.POPESTIMATE2019 ? numberWithCommas(props.POPESTIMATE2019) : '0') +
-            '<br />New Cases, Past 14 Days: ' + (props.growthdiff ? numberWithCommas(props.growthdiff) : '0') +
-            '<br />New Cases Per 10,000 Residents,<br />Past 14 Days<b>: ' + (props.growthrate ? numberWithCommas(props.growthrate) : '0') + '</b>' +
-            '<br /><span class="infoupdated">Last Updated: ' + (props.Last_Update ? props.Last_Update : '0') + ' EST</span>' +
+            '</b><br />Food Insecurity Population: ' + (props.popInsecure ? numberWithCommas(props.popInsecure) : '0') +
+            '<br />Food Insecurity Children: ' + (props.children ? numberWithCommas(props.children) : '0') +
+         //   '<br />Population: ' + (props.POPESTIMATE2019 ? numberWithCommas(props.POPESTIMATE2019) : '0') +
+           // '<br />New Cases, Past 14 Days: ' + (props.growthdiff ? numberWithCommas(props.growthdiff) : '0') +
+           // '<br />New Cases Per 10,000 Residents,<br />Past 14 Days<b>: ' + (props.growthrate ? numberWithCommas(props.growthrate) : '0') + '</b>' +
+          //  '<br /><span class="infoupdated">Last Updated: ' + (props.Last_Update ? props.Last_Update : '0') + ' EST</span>' +
             '<div class="tab-text" style="margin-top: 10px;">GIVE NOW</div>' :
             'Click on a county for current data.<br /><br /><div class="tab-text">GIVE NOW</div>');
 };
@@ -198,8 +198,8 @@ var legend = L.control({
 });
 legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0, 5, 10, 25, 50, 75, 100],
-        labels = ['<div class="header-text">New Cases Per 10,000 Past 14 Days</div>'],
+        grades =  [0, 5, 10, 25, 50, 75, 100],
+        labels = ['<div class="header-text">Food Insecurity by Population</div>'],
         from, to;
 
     for (var i = 0; i < grades.length; i++) {
@@ -289,6 +289,10 @@ var growthcalc_tenday = [];
 
 var growthrates = [];
 
+
+
+
+
 function growth_percent_calc(confirmed, old_confirmed, population) {
     var growth_calc = ((population > 10000) ? ((confirmed - old_confirmed) / (population / 10000)) : (confirmed - old_confirmed));
     growth_calc = growth_calc.toFixed(0);
@@ -308,20 +312,22 @@ function growth_percent_diff(confirmed, old_confirmed, population) {
 }
 
 (function () {
-    covid19_data = mergeByIdAgain(covid19_data, population);
+    covid19_data = mergeByIdAgain(stateData, population);
 
-    var dates = covid19_data.distinct('Last_Update');
+    var dates = stateData.distinct('Last_Update');
     last_updated = dates[0];
 
-    for (var i = 0; i < covid19_data.length; i++) {
-        var county = covid19_data[i];
+    for (var i = 0; i < stateData.length; i++) {
+      county =   stateData[i];
+      
+
         var county_name = county.Admin2 + ' County, ' + county.Province_State + ', ' + county.Country_Region;
-        var county_confirmed = county.Confirmed;
-        var county_deaths = county.Deaths;
-        var old_confirmed = county.Confirmed;
+        //var county_confirmed = county.Confirmed;
+        var county_deaths = county.children;
+       // var old_confirmed = county.Confirmed;
         var fips = county.FIPS;
         var popest = county.POPESTIMATE2019;
-
+          
         if (county.Last_Update == dates[0]) {
             county_names.push([county_name]);
             total_cases.push([county_confirmed]);
@@ -332,11 +338,13 @@ function growth_percent_diff(confirmed, old_confirmed, population) {
                 'population': popest
             });
         }
+       
+        
     }
 
-    for (var i = 0; i < covid19_data.length; i++) {
-        var county = covid19_data[i];
-        var county_confirmed = county.Confirmed;
+    for (var i = 0; i < stateData.length; i++) {
+        var county = stateData[i];
+        var county_confirmed = county.adults;
         var fips = county.FIPS;
 
         if (county.Last_Update == dates[1]) {
@@ -367,7 +375,7 @@ function growth_percent_diff(confirmed, old_confirmed, population) {
         });
 
     }
-    covid19_data_pop = mergeById(us_counties.features, covid19_data);
+    covid19_data_pop = mergeById(us_counties.features, stateData);
 
     covid19_counties_growth = mergeByIdGrowth(covid19_data_pop, growthrates);
 })();
@@ -455,4 +463,3 @@ window.addEventListener("load", function () {
     };
 
 })(jQuery);
-
