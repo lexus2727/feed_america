@@ -66,7 +66,7 @@ var fitBounds = [
 var map = new L.map('map', {
     center: [30, -98],
     zoom: 3,
-    minZoom: 3,
+    minZoom: 4,
     maxZoom: 12,
     zoomDelta: 2,
     maxBounds: maxBounds,
@@ -81,13 +81,15 @@ var geojson;
 
 // Choropleth colors
 function getColorConfirmedGrowth(d) {
-    return d > 100 ? '#5f0000' :
-        d > 75 ? '#dc0005' :
-        d > 50 ? '#ff4d00' :
-        d > 25 ? '#FFFF00' :
-        d > 10 ? '#8EB091' :
-        d > 5 ? '#108503' :
-        '#013220';
+    return d > 1000 ? '#800026' :
+    d > 500  ? '#BD0026' :
+    d > 200  ? '#E31A1C' :
+    d > 100  ? '#FC4E2A' :
+    d > 50   ? '#FD8D3C' :
+    d > 20   ? '#FEB24C' :
+    d > 10   ? '#FED976' :
+                '#FFEDA0';
+    
 }
 
 function style(feature) {
@@ -115,7 +117,7 @@ function highlightFeature(e) {
         weight: 2,
         color: '#ADFF2F',
         dashArray: '',
-        fillOpacity: 0.7,
+        fillOpacity: 0.7
     });
 
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
@@ -198,7 +200,7 @@ var legend = L.control({
 });
 legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend'),
-        grades =  [0, 5, 10, 25, 50, 75, 100],
+        grades =  [0, 10, 20, 50, 500, 1000],
         labels = ['<div class="header-text">Food Insecurity by Population</div>'],
         from, to;
 
@@ -344,7 +346,7 @@ function growth_percent_diff(confirmed, old_confirmed, population) {
 
     for (var i = 0; i < stateData.length; i++) {
         var county = stateData[i];
-        var county_confirmed = county.adults;
+        var county_confirmed = county.popInsecure;
         var fips = county.FIPS;
 
         if (county.Last_Update == dates[1]) {
