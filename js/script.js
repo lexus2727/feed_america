@@ -81,16 +81,16 @@ var geojson;
 
 // Choropleth colors
 function getColorConfirmedGrowth(d) {
-    return d > 1000 ? '#800026' :
-    d > 500  ? '#BD0026' :
-    d > 200  ? '#E31A1C' :
-    d > 100  ? '#FC4E2A' :
+    return d > 8000 ? '#E81401':
+    d > 2000 ? '#991200' :
+    d > 700  ? '#FE9900' :
+    d > 300  ? '#F75C01' :
     d > 50   ? '#FD8D3C' :
     d > 20   ? '#FEB24C' :
     d > 10   ? '#FED976' :
                 '#FFEDA0';
     
-}
+};
 
 function style(feature) {
     return {
@@ -181,10 +181,10 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-    this._div.innerHTML = '<h3>US Food Insecurity Cases by County</h3>' +
+    this._div.innerHTML = '<h3>US Food Need Cases by County</h3>' +
         (props ? '<b>' + props.properties.NAME + (props.properties.STATENAME ? ', ' + props.properties.STATENAME : '') +
-            '</b><br />Food Insecurity Population: ' + (props.popInsecure ? numberWithCommas(props.popInsecure) : '0') +
-            '<br />Food Insecurity Children: ' + (props.children ? numberWithCommas(props.children) : '0') +
+            '</b><br />Food Need Population: ' + (props.popInsecure ? numberWithCommas(props.popInsecure) : '0') +
+            '<br />Food Need Children: ' + (props.children ? numberWithCommas(props.children) : '0') +
          //   '<br />Population: ' + (props.POPESTIMATE2019 ? numberWithCommas(props.POPESTIMATE2019) : '0') +
            // '<br />New Cases, Past 14 Days: ' + (props.growthdiff ? numberWithCommas(props.growthdiff) : '0') +
            // '<br />New Cases Per 10,000 Residents,<br />Past 14 Days<b>: ' + (props.growthrate ? numberWithCommas(props.growthrate) : '0') + '</b>' +
@@ -200,7 +200,7 @@ var legend = L.control({
 });
 legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend'),
-        grades =  [0, 10, 20, 50, 500, 1000],
+        grades =  [0, 10, 20, 50, 300, 700, 2000, 8000],
         labels = ['<div class="header-text">Food Insecurity by Population</div>'],
         from, to;
 
@@ -209,7 +209,7 @@ legend.onAdd = function (map) {
         to = grades[i + 1];
 
         labels.push(
-            '<i style="background:' + getColorConfirmedGrowth(from) + '"></i> ' +
+            '<i style="background:' + getColorConfirmedGrowth(from + .01) + '"></i> ' +
             from + (to ? '&ndash;' + to : '+'));
     }
 
@@ -324,9 +324,9 @@ function growth_percent_diff(confirmed, old_confirmed, population) {
       
 
         var county_name = county.Admin2 + ' County, ' + county.Province_State + ', ' + county.Country_Region;
-        //var county_confirmed = county.Confirmed;
+        var county_confirmed = county.Confirmed;
         var county_deaths = county.children;
-       // var old_confirmed = county.Confirmed;
+        var old_confirmed = county.Confirmed;
         var fips = county.FIPS;
         var popest = county.POPESTIMATE2019;
           
