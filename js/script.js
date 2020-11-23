@@ -218,7 +218,7 @@ legend.onAdd = function (map) {
 };
 legend.addTo(map);
 
-map.attributionControl.setPrefix('Color code shows new cases per 10,000 people over 14 days. COVID-19 data provided by <a href="https://coronavirus.jhu.edu/us-map" target="_blank">Johns Hopkins University</a>. Population data provided by <a href="https://www.census.gov/" target="_blank">US Census Bureau</a> Credits: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>');
+map.attributionControl.setPrefix('Food Insecurity data provided by Gundersen, C., A. Dewey, E. Engelhard, M. Strayer & L. Lapinski. Map the Meal 2020: A Report on County and Congressional District Food Insecurity and County Food Cost in the United States 2018. Feed America, 2020 Credits: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>');
 
 var panelcontent = L.control({
     position: 'bottomleft'
