@@ -81,8 +81,8 @@ var geojson;
 
 // Choropleth colors
 function getColorConfirmedGrowth(d) {
-    return d > 8000 ? '#E81401':
-    d > 2000 ? '#991200' :
+    return d > 8000 ?'#991200':
+    d > 2000 ?  '#E81401':
     d > 700  ? '#FE9900' :
     d > 300  ? '#F75C01' :
     d > 50   ? '#FD8D3C' :
@@ -181,10 +181,10 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-    this._div.innerHTML = '<h3>US Hunger Cases by County</h3>' +
+    this._div.innerHTML = '<h3>US Food Insecurity Cases by County</h3>' +
         (props ? '<b>' + props.properties.NAME + (props.properties.STATENAME ? ', ' + props.properties.STATENAME : '') +
-            '</b><br />Total Hunger Population: ' + (props.popInsecure ? numberWithCommas(props.popInsecure) : '0') +
-            '<br />Total Children Affected by Hunger: ' + (props.children ? numberWithCommas(props.children) : '0') +
+            '</b><br />Total Population Experiencing Food Insecurity: ' + (props.popInsecure ? numberWithCommas(props.popInsecure) : '0') +
+            '<br />Total Children Experiencing Food Insecurity: ' + (props.children ? numberWithCommas(props.children) : '0') +
          //   '<br />Population: ' + (props.POPESTIMATE2019 ? numberWithCommas(props.POPESTIMATE2019) : '0') +
            // '<br />New Cases, Past 14 Days: ' + (props.growthdiff ? numberWithCommas(props.growthdiff) : '0') +
            // '<br />New Cases Per 10,000 Residents,<br />Past 14 Days<b>: ' + (props.growthrate ? numberWithCommas(props.growthrate) : '0') + '</b>' +
@@ -218,7 +218,7 @@ legend.onAdd = function (map) {
 };
 legend.addTo(map);
 
-map.attributionControl.setPrefix('Food Insecurity data provided by Gundersen, C., A. Dewey, E. Engelhard, M. Strayer & L. Lapinski. Map the Meal 2020: A Report on County and Congressional District Food Insecurity and County Food Cost in the United States 2018. Feeding America, 2020 Credits: <a href="https://leafletjs.com/" target="_blank">Leaflet</a>');
+map.attributionControl.setPrefix('Food Insecurity data provided by Gundersen, C., A. Dewey, E. Engelhard (2020). The Impact of the Coronavirus on Food Insecurity in 2020 [Data file and FAQ]. Available from Feeding America: <a href= "mailto: research@feedingamerica.org">research@feedingamerica.org</a>. <a href="https://leafletjs.com/" target="_blank">Leaflet</a>');
 
 var panelcontent = L.control({
     position: 'bottomleft'
