@@ -11,6 +11,18 @@ function getFormattedDate(date) {
     return month + '/' + day + '/' + year;
 }
 
+function percentPop(num) {
+    
+ return Math.floor(num * 100);
+
+}
+
+function percentChildren(num) {
+
+return Math.floor(num * 100);
+
+}
+
 Array.prototype.distinct = function (item) {
     var results = [];
     for (var i = 0, l = this.length; i < l; i++)
@@ -185,7 +197,8 @@ info.update = function (props) {
         (props ? '<b>' + props.properties.NAME + (props.properties.STATENAME ? ', ' + props.properties.STATENAME : '') +
             '</b><br />Total Population Experiencing Food Insecurity: ' + (props.popInsecure ? numberWithCommas(props.popInsecure) : '0') +
             '<br />Total Children Experiencing Food Insecurity: ' + (props.children ? numberWithCommas(props.children) : '0') +
-         //   '<br />Population: ' + (props.POPESTIMATE2019 ? numberWithCommas(props.POPESTIMATE2019) : '0') +
+           '<br />Percentage of Total Food Insecurity Population: ' + (props.popInsecurePercent ? percentPop(props.popInsecurePercent) : '0') + '%' +
+           '<br />Percentage of Children Experiencing Food Insecurity: ' + (props.childrenPercentage ? percentChildren(props.childrenPercentage) : '0') + '%' +
            // '<br />New Cases, Past 14 Days: ' + (props.growthdiff ? numberWithCommas(props.growthdiff) : '0') +
            // '<br />New Cases Per 10,000 Residents,<br />Past 14 Days<b>: ' + (props.growthrate ? numberWithCommas(props.growthrate) : '0') + '</b>' +
           //  '<br /><span class="infoupdated">Last Updated: ' + (props.Last_Update ? props.Last_Update : '0') + ' EST</span>' +
