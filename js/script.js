@@ -93,11 +93,11 @@ var geojson;
 
 // Choropleth colors
 function getColorConfirmedGrowth(d) {
-    return d > 8000 ?'#991200':
-    d > 2000 ?  '#E81401':
-    d > 700  ? '#FE9900' :
-    d > 300   ? '#F75C01' :
-    d > 100   ? '#FD8D3C' :
+    return d > 20000 ?'#991200':
+    d > 10000 ?  '#E81401':
+    d > 5000 ? '#FE9900' :
+    d > 1000  ? '#F75C01' :
+    d > 500  ? '#FD8D3C' :
                 '#FFEDA0';
     
 };
@@ -193,7 +193,7 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-    this._div.innerHTML = '<h3>US Food Insecurity Cases by County</h3>' +
+    this._div.innerHTML = '<h3>US Hunger Cases by County</h3>' +
         (props ? '<b>' + props.properties.NAME + (props.properties.STATENAME ? ', ' + props.properties.STATENAME : '') +
             '<br />Total Population: ' + (props.POPESTIMATE2019 ? numberWithCommas(props.POPESTIMATE2019) : '0') +
 	    '<br />Total Experiencing Food Insecurity Per Million: ' + (props.growthrate ? numberWithCommas(props.growthrate) : '0') +
@@ -215,13 +215,13 @@ var legend = L.control({
 });
 legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend'),
-        grades =  [0, 100, 300 ,700,2000 ,8000 ],
+        grades =  [0,500,1000,5000,10000,20000 ],
         labels = ['<div class="header-text">Food Insecurity by Population Per Million</div>'],
         from, to;
 
     for (var i = 0; i < grades.length; i++) {
         from = grades[i];
-        to = grades[i + 1];
+        to = grades[i + 1] - 1;
 
         labels.push(
             '<i style="background:' + getColorConfirmedGrowth(from + .01) + '"></i> ' +
@@ -233,7 +233,7 @@ legend.onAdd = function (map) {
 };
 legend.addTo(map);
 
-map.attributionControl.setPrefix('Food Insecurity data provided by Gundersen, C., A. Dewey, E. Engelhard (2020). The Impact of the Coronavirus on Food Insecurity in 2020 [Data file and FAQ]. Available from <a href="https://www.feedingamerica.org/" target="_blank">Feeding America:</a> <a href=" mailto: research@feedingamerica.org">research@feedingamerica.org</a>. <a href="https://leafletjs.com/" target="_blank">Leaflet</a>');
+map.attributionControl.setPrefix('Food Insecurity data provided by Gundersen, C., A. Dewey, E. Engelhard (2020). The Impact of the Coronavirus on Food Insecurity in 2020, Update October 2020 [Data file and FAQ]. Available from <a href="https://www.feedingamerica.org/" target="_blank">Feeding America:</a> <a href=" mailto: research@feedingamerica.org">research@feedingamerica.org</a>. <a href="https://leafletjs.com/" target="_blank">Leaflet</a>');
 
 var panelcontent = L.control({
     position: 'bottomleft'
