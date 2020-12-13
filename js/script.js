@@ -194,11 +194,11 @@ info.onAdd = function (map) {
 
 info.update = function (props) {
     this._div.innerHTML = '<h3>US Hunger Cases by County</h3>' +
-        (props ? '<b>' + props.properties.NAME + (props.properties.STATENAME ? ', ' + props.properties.STATENAME : '') +
-            '<br />Total Population: ' + (props.POPESTIMATE2019 ? numberWithCommas(props.POPESTIMATE2019) : '0') +
-	    '<br />Total Experiencing Food Insecurity Per Million: ' + (props.growthrate ? numberWithCommas(props.growthrate) : '0') +
-            '</b><br />Total Population Experiencing Food Insecurity: ' + (props.popInsecure ? numberWithCommas(props.popInsecure) : '0') +
-            '<br />Total Children Experiencing Food Insecurity: ' + (props.children ? numberWithCommas(props.children) : '0') +
+        (props ? '<b>' +  props.properties.NAME + (props.properties.STATENAME ? ', ' + props.properties.STATENAME : '') + 
+            '</b><br />Population: ' + (props.POPESTIMATE2019 ? numberWithCommas(props.POPESTIMATE2019) : '0') +
+	    '<br />People Experiencing Food Insecurity Per Million: ' + (props.growthrate ? numberWithCommas(props.growthrate) : '0') +
+            '<br />Total People Experiencing Food Insecurity: ' + (props.popInsecure ? '<b>'+ numberWithCommas(props.popInsecure) : '0') +
+            '</b><br />Total Children Experiencing Food Insecurity: ' + (props.children ?'<b>'+ numberWithCommas(props.children) : '0') + '</b>' +
           // '<br />Percentage of Total Food Insecurity Population: ' + (props.popInsecurePercent ? percentPop(props.popInsecurePercent) : '0') + '%' +
           // '<br />Percentage of Children Experiencing Food Insecurity: ' + (props.childrenPercentage ? percentChildren(props.childrenPercentage) : '0') + '%' +
            // '<br />New Cases, Past 14 Days: ' + (props.growthdiff ? numberWithCommas(props.growthdiff) : '0') +
